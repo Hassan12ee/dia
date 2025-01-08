@@ -4,126 +4,7 @@
             {{ Session::get('success') }}
         </div>
     @endif
-    <div class="container">
-        <div class="row">
-            <form method="POST" action="{{ route('create') }}" enctype="multipart/form-data" >
-            @csrf
-            <div class="col-md-12">
-                <div class="form-floating">
-                    <input type="text" name="Hotels" class="form-control @error('Hotels') is-invalid @enderror"
-                        id="Hotels" value="{{ old('Hotels') }}" required autocomplete="Hotels">
-                    <label for="Hotels">Place</label>
-                    @error('Hotels')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-            <div class="form-group mb-4">
-                <label for="Type" class="fw-bold pb-2">What type of food do you prefer?</label>
-                <select id="Type" name="Type" class="form-select form-select-md @error('Type') is-invalid @enderror" aria-label="Food type select">
-                    <option selected disabled>Open this select menu</option>
-                    <option value="Egyptian">Egyptian</option>
-                    <option value="Fast Food">Fast Food</option>
-                    <option value="European">European</option>
-                    <option value="Seafood">Seafood</option>
-                </select>
-                @error('Type')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
 
-
-            <div class="col-md-12">
-                <div class="form-floating">
-                    <input type="text" name="Rating"
-                        class="form-control @error('Rating') is-invalid @enderror" id="Rating"
-                        autocomplete="Rating">
-                    <label for="Rating">Rating</label>
-                    @error('Rating')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="form-floating">
-                    <input type="text" name="Popularity"
-                        class="form-control @error('Popularity') is-invalid @enderror" id="Popularity"
-                        autocomplete="Popularity">
-                    <label for="Popularity">Popularity</label>
-                    @error('Popularity')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="form-floating">
-                    <input type="text" name="Opening_Hours"
-                        class="form-control @error('Opening_Hours') is-invalid @enderror" id="Opening_Hours"
-                        autocomplete="Opening_Hours">
-                    <label for="Average_Cost">Opening_Hours</label>
-                    @error('Opening_Hours')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="form-floating">
-                    <input type="text" name="Facilities"
-                        class="form-control @error('Facilities') is-invalid @enderror" id="Facilities"
-                        autocomplete="Facilities">
-                    <label for="Facilities">Facilities</label>
-                    @error('Facilities')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="form-floating">
-                    <input type="text" name="Budget"
-                        class="form-control @error('Budget') is-invalid @enderror" id="Budget"
-                        autocomplete="Budget">
-                    <label for="Budget">Budget</label>
-                    @error('Budget')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="form-floating">
-                    <textarea type="textarea" name="details"
-                        class="form-control @error('details') is-invalid @enderror" id="details" row="5" style="height:250px"
-                        autocomplete="details"></textarea>
-                    <label for="details">details</label>
-                    @error('details')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-
-
-
-
-            <button type="submit" class="btn btn-primary" >Submit</button>
-            </form>
-        </div>
-    </div>
-    <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -180,10 +61,11 @@
     <body>
         <div class="form-container">
             <h2>Diabetes Data Entry</h2>
-            <form action="/submit" method="POST">
+            <form action="{{ route('create') }}" method="POST">
+                @csrf
                 <div class="form-group">
                     <label for="patient_id">Patient ID</label>
-                    <input class="form-control @error('details') is-invalid @enderror" type="text" id="patient_id" name="patient_id" required>
+                    <input class="form-control @error('patient_id') is-invalid @enderror" type="text" id="patient_id" name="patient_id" required>
                     @error('patient_id')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -192,8 +74,8 @@
                 </div>
                 <div class="form-group">
                     <label for="height">Height (cm)</label>
-                    <input class="form-control @error('details') is-invalid @enderror" type="number" id="height" name="height" step="0.1" required>
-                    @error('patient_id')
+                    <input class="form-control @error('height') is-invalid @enderror" type="number" id="height" name="height" step="0.1" required>
+                    @error('height')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -201,8 +83,8 @@
                 </div>
                 <div class="form-group">
                     <label for="weight">Weight (kg)</label>
-                    <input class="form-control @error('details') is-invalid @enderror" type="number" id="weight" name="weight" step="0.1" required>
-                    @error('patient_id')
+                    <input class="form-control @error('weight') is-invalid @enderror" type="number" id="weight" name="weight" step="0.1" required>
+                    @error('weight')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -210,8 +92,8 @@
                 </div>
                 <div class="form-group">
                     <label for="number_of_pregnacies">Number of Pregnancies</label>
-                    <input class="form-control @error('details') is-invalid @enderror"  type="number" id="number_of_pregnacies" name="number_of_pregnacies" required>
-                    @error('patient_id')
+                    <input class="form-control @error('number_of_pregnacies') is-invalid @enderror"  type="number" id="number_of_pregnacies" name="number_of_pregnacies" required>
+                    @error('number_of_pregnacies')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -219,8 +101,8 @@
                 </div>
                 <div class="form-group">
                     <label for="glucose_level">Glucose Level</label>
-                    <input class="form-control @error('details') is-invalid @enderror"  type="number" id="glucose_level" name="glucose_level" step="0.1" required>
-                    @error('patient_id')
+                    <input class="form-control @error('glucose_level') is-invalid @enderror"  type="number" id="glucose_level" name="glucose_level" step="0.1" required>
+                    @error('glucose_level')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -228,8 +110,8 @@
                 </div>
                 <div class="form-group">
                     <label for="skin_thickness">Skin Thickness (mm)</label>
-                    <input class="form-control @error('details') is-invalid @enderror" type="number" id="skin_thickness" name="skin_thickness" step="0.1" required>
-                    @error('patient_id')
+                    <input class="form-control @error('skin_thickness') is-invalid @enderror" type="number" id="skin_thickness" name="skin_thickness" step="0.1" required>
+                    @error('skin_thickness')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -237,8 +119,8 @@
                 </div>
                 <div class="form-group">
                     <label for="activity_level">Activity Level</label>
-                    <input class="form-control @error('details') is-invalid @enderror" type="text" id="activity_level" name="activity_level" required>
-                    @error('patient_id')
+                    <input class="form-control @error('activity_level') is-invalid @enderror" type="text" id="activity_level" name="activity_level" required>
+                    @error('activity_level')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -246,8 +128,8 @@
                 </div>
                 <div class="form-group">
                     <label for="insulin_level">Insulin Level</label>
-                    <input  class="form-control @error('details') is-invalid @enderror" type="number" id="insulin_level" name="insulin_level" step="0.1" required>
-                    @error('patient_id')
+                    <input  class="form-control @error('insulin_level') is-invalid @enderror" type="number" id="insulin_level" name="insulin_level" step="0.1" required>
+                    @error('insulin_level')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -255,8 +137,8 @@
                 </div>
                 <div class="form-group">
                     <label for="BMI">BMI</label>
-                    <input class="form-control @error('details') is-invalid @enderror" type="number" id="BMI" name="BMI" step="0.1" required>
-                    @error('patient_id')
+                    <input class="form-control @error('BMI') is-invalid @enderror" type="number" id="BMI" name="BMI" step="0.1" required>
+                    @error('BMI')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -264,8 +146,8 @@
                 </div>
                 <div class="form-group">
                     <label for="outcome">Outcome</label>
-                    <input class="form-control @error('details') is-invalid @enderror"  type="text" id="outcome" name="outcome" required>
-                    @error('patient_id')
+                    <input class="form-control @error('outcome') is-invalid @enderror"  type="text" id="outcome" name="outcome" required>
+                    @error('outcome')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -273,8 +155,8 @@
                 </div>
                 <div class="form-group">
                     <label for="Age">Age</label>
-                    <input class="form-control @error('details') is-invalid @enderror"  type="number" id="Age" name="Age" required>
-                    @error('patient_id')
+                    <input class="form-control @error('Age') is-invalid @enderror"  type="number" id="Age" name="Age" required>
+                    @error('Age')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
