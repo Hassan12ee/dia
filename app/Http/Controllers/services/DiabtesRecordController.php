@@ -30,7 +30,9 @@ class DiabtesRecordController extends Controller
      */
     public function store(Storediabtes_recordRequest $request)
     {
-        //
+        //BMI=weight / (height)^2
+
+        $request ->BMI =$request->weight/ $request->height^2;
         diabtes_record::create([
 
             'patient_id'=> $request->patient_id,

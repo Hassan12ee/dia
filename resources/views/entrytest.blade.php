@@ -135,15 +135,7 @@
                     </span>
                 @enderror
                 </div>
-                <div class="form-group">
-                    <label for="BMI">BMI</label>
-                    <input class="form-control @error('BMI') is-invalid @enderror" type="number" id="BMI" name="BMI" step="0.1" required>
-                    @error('BMI')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-                </div>
+
                 <div class="form-group">
                     <label for="outcome">Outcome</label>
                     <input class="form-control @error('outcome') is-invalid @enderror"  type="text" id="outcome" name="outcome" required>

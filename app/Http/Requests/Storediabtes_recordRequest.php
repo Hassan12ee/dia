@@ -31,7 +31,7 @@ class Storediabtes_recordRequest extends FormRequest
             'skin_thickness'=> 'required|max:100',
             'activity_level'=> 'required|max:100',
             'insulin_level'=> 'required|max:100',
-            'BMI'=> 'required|max:100',
+            'BMI'=> 'max:100',
             'outcome'=> 'required|max:100',
             'Age'=> 'required|max:100',
 

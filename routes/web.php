@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\services\DiabtesRecordController;
-
+use App\Http\Controllers\services\ExcercisesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,4 +28,4 @@ Route::post('/test/store', [App\Http\Controllers\services\DiabtesRecordControlle
 Route::get('/admin/hotels/view',[App\Http\Controllers\services\DiabtesRecordController::class,'show']);
 Route::get('/admin/hotels/update/{record_id}',[App\Http\Controllers\services\DiabtesRecordController::class,'edit']);
 Route::put('/admin/hotels/update/done/{record_id}',[App\Http\Controllers\services\DiabtesRecordController::class,'Update']);
-Route::get('/test', [App\Http\Controllers\services\ExcercisesController::class,  'create'])->name('test');
+Route::get('/test2', [App\Http\Controllers\services\ExcercisesController::class,  'show']);

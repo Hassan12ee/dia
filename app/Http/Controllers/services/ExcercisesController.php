@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\services;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreexcercisesRequest;
 use App\Models\excercises;
 use Illuminate\Http\Request;
@@ -24,48 +25,41 @@ class ExcercisesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreexcercisesRequest $request)
-    {
-        //
-        excercises::create([
+    // public function store(StoreexcercisesRequest $request)
+    // {
+    //     //
+    //     excercises::create([
 
-            'excercise_ID'=> $request->excercise_ID,
-            'Name'=> $request->Name,
-            'Type'=> $request->Type,
-            'Time'=> $request->Time,
-            'Sets'=> $request->Sets,
+    //         'excercise_ID'=> $request->excercise_ID,
+    //         'Name'=> $request->Name,
+    //         'Type'=> $request->Type,
+    //         'Time'=> $request->Time,
+    //         'Sets'=> $request->Sets,
 
-            ]);
-            return redirect()->back()->with(['success' => 'تم اضافه العرض بنجاح ']);
+    //         ]);
+    //         return redirect()->back()->with(['success' => 'تم اضافه العرض بنجاح ']);
 
-    }
+    // }
 
     /**
      * Display the specified resource.
      */
-//     public function show(excercises $diabtes_record)
-//     {
-//         //
+    public function show(excercises $excercises)
+    {
+        //
 
-//            $view=  excercises::select(
-//             'record_id',
-//             'patient_id',
-//             'height',
-//             'weight',
-//             'number_of_pregnacies',
-//             'glucose_level',
-//             'skin_thickness',
-//             'activity_level',
-//             'insulin_level',
-//             'BMI',
-//             'outcome',
-//             'Age',) ->paginate(PAGINATION_COUNT);
+           $view=  excercises::select(
+            'excercise_ID',
+        'Name',
+        'Type',
+        'Time',
+        'Sets',) ->paginate(PAGINATION_COUNT);
 
 
 
-//           return view('view_hotels',compact(var_name:'view'));
+          return view('view',compact(var_name:'view'));
 
-//     }
+    }
 
 //     /**
 //      * Show the form for editing the specified resource.
