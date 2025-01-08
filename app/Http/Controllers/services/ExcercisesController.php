@@ -10,55 +10,104 @@ class ExcercisesController extends Controller
 {
     public function index()
     {
-        $excercises = excercises::all();
-        return view('excercises.index', compact('excercises'));
+        //
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
-        return view('excercises.create');
+        return view('entrytest');
     }
 
-    public function store(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Storediabtes_recordRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:excercises',
-            'age' => 'required|integer',
+        //
+        diabtes_record::create([
 
-        ]);
+            'patient_id'=> $request->patient_id,
+            'height'=> $request->height,
+            'weight'=> $request->weight,
+            'number_of_pregnacies'=> $request->number_of_pregnacies,
+            'glucose_level'=> $request->glucose_level,
+            'skin_thickness'=> $request->skin_thickness,
+            'activity_level'=> $request->activity_level,
+            'insulin_level'=> $request->insulin_level,
+            'BMI'=> $request->BMI,
+            'outcome'=> $request->outcome,
+            'Age'=> $request->Age,
+            ]);
+            return redirect()->back()->with(['success' => 'تم اضافه العرض بنجاح ']);
 
-        excercises::create($request->all());
-        return redirect()->route('excercises.index')->with('success', 'excercises record added successfully');
     }
 
-    public function show(excercises $excercises)
+    /**
+     * Display the specified resource.
+     */
+    public function show(diabtes_record $diabtes_record)
     {
-        return view('excercises.show', compact('excercises'));
+        //
+
+          $view=  diabtes_record::select(
+            'record_id',
+            'patient_id',
+            'height',
+            'weight',
+            'number_of_pregnacies',
+            'glucose_level',
+            'skin_thickness',
+            'activity_level',
+            'insulin_level',
+            'BMI',
+            'outcome',
+            'Age',) ->paginate(PAGINATION_COUNT);
+
+
+
+          return view('view_hotels',compact(var_name:'view'));
+
     }
 
-    public function edit(excercises $excercises)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit( $record_id)
     {
-        return view('excercises.edit', compact('excercises'));
+        //
+
+        $view = diabtes_record::where("record_id",$record_id)->first();
+        if (!$view)
+        return redirect()->back();
+
+        $view = diabtes_record::where("record_id",$record_id)->first();
+
+        //
+        return view('hotels_update', compact('view'));
     }
-
-    public function update(Request $request, excercises $excercises)
+    public function Update(Storediabtes_recordRequest $request, $record_id)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'age' => 'required|integer',
-            'glucose_level' => 'required|numeric',
-            'date_recorded' => 'required|date',
-        ]);
+        // validtion
 
-        $excercises->update($request->all());
-        return redirect()->route('excercises.index')->with('success', 'excercises record updated');
+        // chek if
+        $offer = diabtes_record::where("record_id",$record_id)->first();
+
+        if (!$offer)
+            return redirect()->back();
+
+        //update data
+
+        $offer->update($request->all());
+
+        return redirect()->back()->with(['success' => ' تم التحديث بنجاح ']);
+
+
     }
-
-    public function destroy(excercises $excercises)
+    public function destroy(diabtes_record $diabtes_record)
     {
-        $excercises->delete();
-        return redirect()->route('excercises.index')->with('success', 'excercises record deleted');
+        //
     }
 }
