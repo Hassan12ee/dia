@@ -28,3 +28,4 @@ Route::post('/test/store', [App\Http\Controllers\services\DiabtesRecordControlle
 Route::get('/admin/hotels/view',[App\Http\Controllers\services\DiabtesRecordController::class,'show']);
 Route::get('/admin/hotels/update/{record_id}',[App\Http\Controllers\services\DiabtesRecordController::class,'edit']);
 Route::put('/admin/hotels/update/done/{record_id}',[App\Http\Controllers\services\DiabtesRecordController::class,'Update']);
+Route::get('/test', [App\Http\Controllers\services\ExcercisesController::class,  'create'])->name('test');

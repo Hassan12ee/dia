@@ -22,7 +22,13 @@ class StoreexcercisesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'excercise_ID' => 'required|max:100',
+            'Name' => 'required',
+            'Type' => 'required|max:255',
+            'Time'=> 'required|max:100',
+            'Sets'=> 'required|max:100',
+     
+
         ];
     }
 }
