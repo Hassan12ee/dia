@@ -9,18 +9,18 @@ class diabtes_record extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'record_id',
+        'id',
         'patient_id',
-        'height',
-        'weight',
-        'number_of_pregnacies',
-        'glucose_level',
-        'skin_thickness',
-        'activity_level',
-        'insulin_level',
-        'BMI',
-        'outcome',
-        'Age',
+        'gender',
+        'age',
+        'hypertension',
+        'heart_disease',
+        'smoking_history',
+        'bmi',
+        'HbA1c_level',
+        'blood_glucose_level',
+        'diabetes',
+        'activty_level',
         ];
 
 }

@@ -32,20 +32,19 @@ class DiabtesRecordController extends Controller
     {
         //BMI=weight / (height)^2
 
-        $request ->BMI =$request->weight/ $request->height^2;
+        // $request ->BMI =$request->weight/ $request->height^2;
         diabtes_record::create([
 
             'patient_id'=> $request->patient_id,
-            'height'=> $request->height,
-            'weight'=> $request->weight,
-            'number_of_pregnacies'=> $request->number_of_pregnacies,
-            'glucose_level'=> $request->glucose_level,
-            'skin_thickness'=> $request->skin_thickness,
-            'activity_level'=> $request->activity_level,
-            'insulin_level'=> $request->insulin_level,
-            'BMI'=> $request->BMI,
-            'outcome'=> $request->outcome,
-            'Age'=> $request->Age,
+            'gender'=> $request->gender,
+            'age'=> $request->age,
+            'hypertension'=> $request->hypertension,
+            'heart_disease'=> $request->heart_disease,
+            'smoking_history'=> $request->smoking_history,
+            'bmi'=> $request->bmi,
+            'HbA1c_level'=> $request->HbA1c_level,
+            'blood_glucose_level'=> $request->blood_glucose_level,
+            'diabetes'=> $request->diabetes,
             ]);
             return redirect()->back()->with(['success' => 'تم اضافه العرض بنجاح ']);
 
@@ -59,18 +58,18 @@ class DiabtesRecordController extends Controller
         //
 
           $view=  diabtes_record::select(
-            'record_id',
+
+            'id',
             'patient_id',
-            'height',
-            'weight',
-            'number_of_pregnacies',
-            'glucose_level',
-            'skin_thickness',
-            'activity_level',
-            'insulin_level',
-            'BMI',
-            'outcome',
-            'Age',) ->paginate(PAGINATION_COUNT);
+            'gender',
+            'age',
+            'hypertension',
+            'heart_disease',
+            'smoking_history',
+            'bmi',
+            'HbA1c_level',
+            'blood_glucose_level',
+            'diabetes',) ->paginate(PAGINATION_COUNT);
 
 
 

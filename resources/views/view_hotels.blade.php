@@ -22,16 +22,15 @@
     <tr>
         <th scope="col">#</th>
         <th scope="col">patient_id</th>
-        <th scope="col">height</th>
-        <th scope="col">weight</th>
-        <th scope="col">number_of_pregnacies</th>
-        <th scope="col">glucose_level</th>
-        <th scope="col">skin_thickness</th>
-        <th scope="col">activity_level</th>
-        <th scope="col">insulin_level</th>
-        <th scope="col">BMI</th>
-        <th scope="col">outcome</th>
-        <th scope="col">Age</th>
+        <th scope="col">gender</th>
+        <th scope="col">age</th>
+        <th scope="col">hypertension</th>
+        <th scope="col">heart_disease</th>
+        <th scope="col">smoking_history</th>
+        <th scope="col">bmi</th>
+        <th scope="col">HbA1c_level</th>
+        <th scope="col">blood_glucose_level</th>
+        <th scope="col">diabetes</th>
         <th scope="col">opeartion</th>
     </tr>
     </thead>
@@ -42,16 +41,15 @@
         <tr>
             <td scope="row">{{$offer -> record_id}}</td>
             <td>{{$offer -> patient_id}}</td>
-            <td>{{$offer -> height}}</td>
-            <td>{{$offer -> weight}}</td>
-            <td>{{$offer -> number_of_pregnacies}}</td>
-            <td>{{$offer -> glucose_level}}</td>
-            <td>{{$offer -> skin_thickness}}</td>
-            <td>{{$offer -> activity_level}}</td>
-            <td>{{$offer -> insulin_level}}</td>
-            <td>{{$offer -> BMI}}</td>
-            <td>{{$offer -> outcome}}</td>
-            <td>{{$offer -> Age}}</td>
+            <td>{{$offer -> gender}}</td>
+            <td>{{$offer -> age}}</td>
+            <td>{{$offer -> hypertension}}</td>
+            <td>{{$offer -> heart_disease}}</td>
+            <td>{{$offer -> smoking_history}}</td>
+            <td>{{$offer -> bmi}}</td>
+            <td>{{$offer -> HbA1c_level}}</td>
+            <td>{{$offer -> blood_glucose_level}}</td>
+            <td>{{$offer -> diabetes}}</td>
             <td>
                 <a href="{{url('admin/hotels/update/'. $offer-> record_id)}}" class="btn btn-success"> update</a>
                 {{-- <a href="{{route('offers.delete',$offer -> id)}}" class="btn btn-danger"> delete</a> --}}
