@@ -20,7 +20,7 @@ class diabtes_record extends Model
         'HbA1c_level',
         'blood_glucose_level',
         'diabetes',
-        'activty_level',
+        'activity_level',
         ];
 
 }

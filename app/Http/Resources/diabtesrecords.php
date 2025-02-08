@@ -26,7 +26,7 @@ class diabtesrecords extends JsonResource
      'HbA1c_level'=>$this-> HbA1c_level,
      'blood_glucose_level'=>$this-> blood_glucose_level,
      'diabetes'=>$this-> diabetes,
-     'activty_level'=>$this->activty_level,
+     'activity_level'=>$this->activity_level,
         ];
     }
 }

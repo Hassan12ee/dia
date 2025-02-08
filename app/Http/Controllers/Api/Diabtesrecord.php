@@ -6,6 +6,7 @@ use App\Http\Resources\diabtesrecords;
 use App\Models\diabtes_record;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use app\http\Requests\Updatediabtes_recordRequest;
 
 use Illuminate\Http\Request;
 
@@ -35,7 +36,6 @@ else{
   public function store(Storediabtes_recordRequest $request){
 
    $validator=validator::make($request->all(),[
-    'id'=>'required|max:100',
     'patient_id' => 'required|max:100',
     'gender' => 'required|in:male,female',
     'age' => 'required|max:13',
@@ -45,6 +45,7 @@ else{
     'bmi'=> 'required',
     'HbA1c_level'=> 'required',
     'blood_glucose_level'=> 'required|max:255',
+    'activity_level'=>'required|in:0,1,2,3',
     'diabetes'=> 'required|in:0,1',
    ]);
    if ($validator->fails()) {
@@ -61,9 +62,8 @@ else{
     }
 
   }
-public function update(Storediabtes_recordRequest $request,$id ){
+public function update(storediabtes_recordRequest $request,$id ){
     $validator=validator::make($request->all(),[
-        'id'=>'required|max:100',
         'patient_id' => 'required|max:100',
         'gender' => 'required|in:male,female',
         'age' => 'required|max:13',
@@ -73,6 +73,7 @@ public function update(Storediabtes_recordRequest $request,$id ){
         'bmi'=> 'required',
         'HbA1c_level'=> 'required',
         'blood_glucose_level'=> 'required|max:255',
+        'activity_level'=>'required|in:0,1,2,3',
         'diabetes'=> 'required|in:0,1',
        ]);
        if ($validator->fails()) {
@@ -88,6 +89,9 @@ public function update(Storediabtes_recordRequest $request,$id ){
         else{
             return $this->apiResponse(null,message:'the record not updated',status:400);
         }
+}
+public function destroy($id){
+
 }
 
 }

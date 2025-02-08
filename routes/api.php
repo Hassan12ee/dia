@@ -24,4 +24,5 @@ Route::get('/records', [DiabtesRecord::class, 'index']);
 Route::get('/records/{id}', [DiabtesRecord::class, 'show']);
 
 Route::post('/records', [DiabtesRecord::class,'store']);
-Route::post('/records{id}', [DiabtesRecord::class,'update']);
+Route::post('/records/{id}', [DiabtesRecord::class, 'update']);
+
