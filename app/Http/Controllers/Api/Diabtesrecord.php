@@ -24,7 +24,7 @@ class Diabtesrecord extends Controller
    $post=diabtes_record::find($id);
 
    if($post){
-           return $this->apiResponse(new diabtesrecords($post),message:'',status:200);
+           return $this->apiResponse(new diabtesrecords($post),message:'ok',status:200);
    }
 else{
     return $this->apiResponse(null,message:'notfound',status:404);
@@ -61,6 +61,8 @@ else{
         return $this->apiResponse(null,message:'the record not save',status:400);
     }
 
+
+
   }
 public function update(storediabtes_recordRequest $request,$id ){
     $validator=validator::make($request->all(),[
@@ -81,17 +83,31 @@ public function update(storediabtes_recordRequest $request,$id ){
 
         $post=diabtes_record::find($id);
 
-       $post->update($request->all());
+
+        if(!$post){
+            return $this->apiResponse(null,'The post Not Found',404);
+        }
+
+        $post->update($request->all());
 
         if($post){
-            return $this->apiResponse(new diabtesrecords($post),message:'updated succesully',status:201);
+            return $this->apiResponse(new diabtesrecords($post),'The post update',201);
         }
-        else{
-            return $this->apiResponse(null,message:'the record not updated',status:400);
-        }
+
 }
 public function destroy($id){
 
+    $post=diabtes_record::find($id);
+
+    if(!$post){
+        return $this->apiResponse(null,'The post Not Found',404);
+    }
+
+    $post->delete();
+
+    if($post){
+        return $this->apiResponse(null,'The post deleted',200);
+    }
 }
 
 }
