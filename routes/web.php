@@ -29,3 +29,4 @@ Route::get('/admin/hotels/view',[App\Http\Controllers\services\DiabtesRecordCont
 Route::get('/admin/hotels/update/{record_id}',[App\Http\Controllers\services\DiabtesRecordController::class,'edit']);
 Route::put('/admin/hotels/update/done/{record_id}',[App\Http\Controllers\services\DiabtesRecordController::class,'Update']);
 Route::get('/test2', [App\Http\Controllers\services\ExcercisesController::class,  'show']);
+Route::get('/test2/{80}', [App\Http\Controllers\services\ExcercisesController::class,  'show']);
