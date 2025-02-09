@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\services;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreexcercisesRequest;
+use App\Models\diabtes_record;
 use App\Models\excercises;
 use Illuminate\Http\Request;
 
@@ -44,18 +45,48 @@ class ExcercisesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(excercises $excercises)
+    public function show(excercises $excercises,$id)
     {
         //
+        $activite = diabtes_record::where('patient_id', $id)->firstorfail()->value('activity_level');
+            
+        if ($activite = 0) {
+            $view=  excercises::
+             selectRaw('count(id) as number_of_orders, excercise_ID')
+            ->groupBy('excercise_ID')
+            ->havingBetween('number_of_orders', [1, 2])
+            ->get();
+        }
 
-           $view=  excercises::select(
-            'excercise_ID',
-        'Name',
-        'Type',
-        'Time',
-        'Sets',) ->paginate(PAGINATION_COUNT);
+        if ($activite = 1) {
+            $view=  excercises::
+            selectRaw('count(id) as number_of_orders, excercise_ID')
+           ->groupBy('excercise_ID')
+           ->havingBetween('number_of_orders', [3, 5])
+           ->get();
+       
 
+        }
 
+        if ($activite = 2) {
+            $view=  excercises::
+            selectRaw('count(id) as number_of_orders, excercise_ID')
+           ->groupBy('excercise_ID')
+           ->havingBetween('number_of_orders', [6, 10])
+           ->get();
+       }
+
+        
+
+        if ($activite = 3) {
+            $view=  excercises::
+            selectRaw('count(id) as number_of_orders, excercise_ID')
+           ->groupBy('excercise_ID')
+           ->havingBetween('number_of_orders', [1, 7])
+           ->get();
+       }
+
+        
 
           return view('view',compact(var_name:'view'));
 
