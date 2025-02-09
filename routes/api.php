@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\DiabtesRecord;
-use App\Http\Controllers\Api\DiabtesRecordController as ApiDiabtesRecordController;
-use App\Http\Controllers\services\DiabtesRecordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\DiabtesRecord;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\services\DiabtesRecordController;
+use App\Http\Controllers\Api\DiabtesRecordController as ApiDiabtesRecordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +28,23 @@ Route::post('/records', [DiabtesRecord::class,'store']);
 Route::post('/records/{id}', [DiabtesRecord::class, 'update']);
 Route::delete('/records/{id}',[DiabtesRecord::class,'destroy']);
 
+
+
+
+
+
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
+], function ($router) {
+
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+
+});
 
 
