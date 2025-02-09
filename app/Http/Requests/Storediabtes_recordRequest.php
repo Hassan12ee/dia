@@ -24,17 +24,16 @@ class Storediabtes_recordRequest extends FormRequest
         return [
             //
             'patient_id' => 'required|max:100',
-            'height' => 'required',
-            'weight' => 'required|max:255',
-            'number_of_pregnacies'=> 'required|max:100',
-            'glucose_level'=> 'required|max:100',
-            'skin_thickness'=> 'required|max:100',
-            'activity_level'=> 'required|max:100',
-            'insulin_level'=> 'required|max:100',
-            'BMI'=> 'max:100',
-            'outcome'=> 'required|max:100',
-            'Age'=> 'required|max:100',
-
+            'gender' => 'required|in:male,female',
+            'age' => 'required|max:13',
+            'hypertension'=> 'required|in:0,1',
+            'heart_disease'=> 'required|in:0,1',
+            'smoking_history'=> 'required|in:never,No Info,current smoking,former,ever,not current',
+            'bmi'=> 'required',
+            'HbA1c_level'=> 'required',
+            'blood_glucose_level'=> 'required|max:255',
+            'activity_level'=>'required|in:0,1,2,3',
+            'diabetes'=> 'required|in:0,1',
         ];
     }
 }

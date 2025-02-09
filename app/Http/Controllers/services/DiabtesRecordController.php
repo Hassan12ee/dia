@@ -32,7 +32,7 @@ class DiabtesRecordController extends Controller
     {
         //BMI=weight / (height)^2
 
-        $request ->BMI =$request->weight/ $request->height^2;
+        // $request ->BMI =$request->weight/ $request->height^2;
         diabtes_record::create([
 
             'patient_id'=> $request->patient_id,
@@ -59,7 +59,8 @@ class DiabtesRecordController extends Controller
         //
 
           $view=  diabtes_record::select(
-            'record_id',
+
+            'id',
             'patient_id',
             'height',
             'weight',

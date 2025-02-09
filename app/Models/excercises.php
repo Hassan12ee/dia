@@ -9,6 +9,7 @@ class excercises extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'activity_level',
         'excercise_ID',
         'Name',
         'Type',
