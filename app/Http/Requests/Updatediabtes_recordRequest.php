@@ -32,7 +32,7 @@ class Updatediabtes_recordRequest extends FormRequest
             'bmi'=> 'required',
             'HbA1c_level'=> 'required',
             'blood_glucose_level'=> 'required|max:255',
-            'activity_level'=>'required|in:0,1,2,3',
+            'activity_level'=>'required|in:1,2,3,4',
             'diabetes'=> 'required|in:0,1',
         ];
     }

@@ -27,7 +27,7 @@ class StoreexcercisesRequest extends FormRequest
             'Type' => 'required|max:255',
             'Time'=> 'required|max:100',
             'Sets'=> 'required|max:100',
-            'activity_level'=>'required|in:0,1,2,3'
+            'activity_level'=>'required|in:1,2,3,4'
         ];
     }
 }

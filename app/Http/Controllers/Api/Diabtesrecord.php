@@ -21,7 +21,7 @@ class Diabtesrecord extends Controller
   }
   public function show($id){
 
-   $post=diabtes_record::find($id);
+    $post = diabtes_record::where('patient_id', $id)->first();
 
    if($post){
            return $this->apiResponse(new diabtesrecords($post),message:'ok',status:200);
@@ -29,9 +29,19 @@ class Diabtesrecord extends Controller
 else{
     return $this->apiResponse(null,message:'notfound',status:404);
 }
-
-
   }
+public function showhistory($id){
+
+    $post = diabtes_record::where('patient_id', $id)->get();
+
+   if($post->isNotEmpty()){
+    return $this->apiResponse(diabtesrecords::collection($post), message: 'ok', status: 200);
+   }
+else{
+    return $this->apiResponse(null,message:'notfound',status:404);
+}
+
+}
 
   public function store(Storediabtes_recordRequest $request){
 
@@ -45,7 +55,7 @@ else{
     'bmi'=> 'required',
     'HbA1c_level'=> 'required',
     'blood_glucose_level'=> 'required|max:255',
-    'activity_level'=>'required|in:0,1,2,3',
+    'activity_level'=>'required|in:1,2,3,4',
     'diabetes'=> 'required|in:0,1',
    ]);
    if ($validator->fails()) {
@@ -75,7 +85,7 @@ public function update(storediabtes_recordRequest $request,$id ){
         'bmi'=> 'required',
         'HbA1c_level'=> 'required',
         'blood_glucose_level'=> 'required|max:255',
-        'activity_level'=>'required|in:0,1,2,3',
+        'activity_level'=>'required|in:1,2,3,4',
         'diabetes'=> 'required|in:0,1',
        ]);
        if ($validator->fails()) {

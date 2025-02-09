@@ -23,8 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/records', [DiabtesRecord::class, 'index']);
-Route::get('/records/{id}', [DiabtesRecord::class, 'show']);
+Route::get('/record/{id}', [DiabtesRecord::class, 'show']);
 Route::get('/Excercises/{id}', [ExcercisesController::class, 'show']);
+Route::get('/records/{id}', [DiabtesRecord::class, 'showhistory']);
 
 
 Route::post('/records', [DiabtesRecord::class,'store']);

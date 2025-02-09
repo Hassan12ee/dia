@@ -10,11 +10,13 @@ use Illuminate\Http\Request;
 
 class ExcercisesController extends Controller
 {
-    public function index()
-    {
-        //
-    }
+    use ApiResponseTrait;
+    public function index(){
 
+        $posts = excercises::collection(excercises::get());
+        return $this->apiResponse($posts,message:'',status:200
+    );
+  }
     /**
      * Show the form for creating a new resource.
      */
@@ -24,52 +26,66 @@ class ExcercisesController extends Controller
     }
 
 
-    public function show(excercises $excercises,$id)
+    public function show( $id)
     {
-        //
-        $activite = diabtes_record::where('patient_id', $id)->firstorfail()->value('activity_level');
 
-        if ($activite = 0) {
+        $activite = diabtes_record::where('patient_id', $id)->value('activity_level');
+
+        if ($activite == 1) {
             $view=  excercises::
-             selectRaw('count(id) as number_of_orders, excercise_ID')
-            ->groupBy('excercise_ID')
-            ->havingBetween('number_of_orders', [1, 2])
+            whereBetween('excercise_ID', [1, 2])
             ->get();
+            if($view){
+                return $this->apiResponse($view, message: 'ok', status: 200);        }
+     else{
+         return $this->apiResponse(null,message:'notfound',status:404);
+     }
+        }else if ($activite == 2) {
+            $view=  excercises::
+            whereBetween('excercise_ID', [3, 5])
+           ->get();
+           if($view){
+            return $this->apiResponse($view, message: 'ok', status: 200);
+    }
+ else{
+     return $this->apiResponse(null,message:'notfound',status:404);
+ }
+
         }
 
-        if ($activite = 1) {
+        else if ($activite == 3) {
             $view=  excercises::
-            selectRaw('count(id) as number_of_orders, excercise_ID')
-           ->groupBy('excercise_ID')
-           ->havingBetween('number_of_orders', [3, 5])
+            whereBetween('excercise_ID', [6, 10])
            ->get();
-
-
-        }
-
-        if ($activite = 2) {
-            $view=  excercises::
-            selectRaw('count(id) as number_of_orders, excercise_ID')
-           ->groupBy('excercise_ID')
-           ->havingBetween('number_of_orders', [6, 10])
-           ->get();
+           if($view){
+            return $this->apiResponse($view, message: 'ok', status: 200);
+    }
+ else{
+     return $this->apiResponse(null,message:'notfound',status:404);
+ }
        }
 
 
 
-        if ($activite = 3) {
+       else if ($activite == 4) {
             $view=  excercises::
-            selectRaw('count(id) as number_of_orders, excercise_ID')
-           ->groupBy('excercise_ID')
-           ->havingBetween('number_of_orders', [1, 7])
+
+            whereBetween('excercise_ID', [1, 7])
            ->get();
+           if($view){
+            return $this->apiResponse($view, message: 'ok', status: 200);    }
+ else{
+     return $this->apiResponse(null,message:'notfound',status:404);
+ }
        }
 
 
 
-          return view('view',compact(var_name:'view'));
+       else{
+        return $this->apiResponse(null,message:'notfound',status:404);
 
     }
 
 
  }
+}
