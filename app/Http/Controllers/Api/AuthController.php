@@ -47,7 +47,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:6',
             'birthday'=>'required|date',
-            'phone'=>'required|varchar|max:11',
+            'phone'=>'required|numeric|digits_between:7,15',
         ]);
 
         if($validator->fails()){
