@@ -7,7 +7,10 @@ use App\Models\diabtes_record;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use app\http\Requests\Updatediabtes_recordRequest;
-
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
 class Diabtesrecord extends Controller
@@ -43,68 +46,111 @@ else{
 
 }
 
-  public function store(Storediabtes_recordRequest $request){
+public function store(Request $request){
+    try {
+        // Send POST request to FastAPI server
+        $response = Http::post('http://127.0.0.1:8000/predict', [
+            'age' => $request->input('age'),
+            'bmi' => $request->input('bmi'),
+            'HbA1c_level' => $request->input('HbA1c_level'),
+            'blood_glucose_level' => $request->input('blood_glucose_level'),
+            'hypertension' => $request->input('hypertension'),
+            'heart_disease' => $request->input('heart_disease'),
+            'gender' => $request->input('gender'),
+            'smoking_history' => $request->input('smoking_history')
+        ]);
 
-   $validator=validator::make($request->all(),[
-    'patient_id' => 'required|max:100',
-    'gender' => 'required|in:male,female',
-    'age' => 'required|max:13',
-    'hypertension'=> 'required|in:0,1',
-    'heart_disease'=> 'required|in:0,1',
-    'smoking_history'=> 'required|in:never,No Info,current smoking,former,ever,not current',
-    'bmi'=> 'required',
-    'HbA1c_level'=> 'required',
-    'blood_glucose_level'=> 'required|max:255',
-    'activity_level'=>'required|in:1,2,3,4',
-    'diabetes'=> 'required|in:0,1',
-   ]);
-   if ($validator->fails()) {
-    return $this->apiResponse(null,$validator->errors(),400);}
+        // Check if API request was successful
+        if ($response->failed()) {
+            return $this->apiResponse(null, 'Failed to get prediction from API', 500);
+        }
+
+        // Decode response
+        $data = $response->json();
+
+        // Ensure required keys exist
+        if (!isset($data['prediction'])) {
+            return $this->apiResponse(null, 'Invalid API response format', 500);
+        }
+
+        // Return success response
+        // return $this->apiResponse($data, 'Prediction retrieved successfully', 200);
+        $validator=validator::make($request->all(),[
+            'patient_id' => 'required|max:100',
+            'gender' => 'required|in:Male,Female',
+            'age' => 'required|max:13',
+            'hypertension'=> 'required|in:0,1',
+            'heart_disease'=> 'required|in:0,1',
+            'smoking_history'=> 'required|in:non-smoker,past_smoker,current',
+            'bmi'=> 'required',
+            'HbA1c_level'=> 'required',
+            'blood_glucose_level'=> 'required|max:255',
+            'activity_level'=>'required|in:1,2,3,4',
+           ]);
+           if ($validator->fails()) {
+            return $this->apiResponse(null,$validator->errors(),400);}
+
+            $request['diabetes'] = $data['prediction'];
+            $post = diabtes_record::create([
+            'patient_id'=> $request->patient_id,
+            'gender'=> $request->gender,
+            'age'=> $request->age,
+            'hypertension'=> $request->hypertension,
+            'heart_disease'=> $request->heart_disease,
+            'smoking_history'=> $request->smoking_history,
+            'bmi'=> $request->bmi,
+            'HbA1c_level'=> $request->HbA1c_level,
+            'activity_level'=> $request->activity_level,
+            'blood_glucose_level'=> $request->blood_glucose_level,
+            'diabetes'=>$data['prediction'],
+        ]);
+
+            if($post){
+                return $this->apiResponse(new diabtesrecords($post),message:'saved succesully',status:201);
+            }
+            else{
+                return $this->apiResponse(null,message:'the record not save',status:400);
+            }
 
 
-    $post = diabtes_record::create($request->all());
-
-    if($post){
-        return $this->apiResponse(new diabtesrecords($post),message:'saved succesully',status:201);
+    } catch (\Exception $e) {
+        // Handle unexpected errors
+        return $this->apiResponse(null, 'An error occurred: ' . $e->getMessage(), 500);
     }
-    else{
-        return $this->apiResponse(null,message:'the record not save',status:400);
-    }
-
-
 
   }
-public function update(storediabtes_recordRequest $request,$id ){
-    $validator=validator::make($request->all(),[
-        'patient_id' => 'required|max:100',
-        'gender' => 'required|in:male,female',
-        'age' => 'required|max:13',
-        'hypertension'=> 'required|in:0,1',
-        'heart_disease'=> 'required|in:0,1',
-        'smoking_history'=> 'required|in:never,No Info,current smoking,former,ever,not current',
-        'bmi'=> 'required',
-        'HbA1c_level'=> 'required',
-        'blood_glucose_level'=> 'required|max:255',
-        'activity_level'=>'required|in:1,2,3,4',
-        'diabetes'=> 'required|in:0,1',
-       ]);
-       if ($validator->fails()) {
-        return $this->apiResponse(null,$validator->errors(),400);}
 
-        $post=diabtes_record::find($id);
+// public function update(storediabtes_recordRequest $request,$id ){
+//     $validator=validator::make($request->all(),[
+//         'patient_id' => 'required|max:100',
+//         'gender' => 'required|in:male,female',
+//         'age' => 'required|max:13',
+//         'hypertension'=> 'required|in:0,1',
+//         'heart_disease'=> 'required|in:0,1',
+//         'smoking_history'=> 'required|in:non-smoker,past_smoker,current',
+//         'bmi'=> 'required',
+//         'HbA1c_level'=> 'required',
+//         'blood_glucose_level'=> 'required|max:255',
+//         'activity_level'=>'required|in:1,2,3,4',
+//         'diabetes'=> 'required|in:0,1',
+//        ]);
+//        if ($validator->fails()) {
+//         return $this->apiResponse(null,$validator->errors(),400);}
+
+//         $post=diabtes_record::find($id);
 
 
-        if(!$post){
-            return $this->apiResponse(null,'The post Not Found',404);
-        }
+//         if(!$post){
+//             return $this->apiResponse(null,'The post Not Found',404);
+//         }
 
-        $post->update($request->all());
+//         $post->update($request->all());
 
-        if($post){
-            return $this->apiResponse(new diabtesrecords($post),'The post update',201);
-        }
+//         if($post){
+//             return $this->apiResponse(new diabtesrecords($post),'The post update',201);
+//         }
 
-}
+// }
 public function destroy($id){
 
     $post=diabtes_record::find($id);
@@ -120,4 +166,41 @@ public function destroy($id){
     }
 }
 
+
+    public function getPrediction(Request $request)
+    {
+        try {
+            // Send POST request to FastAPI server
+            $response = Http::post('http://127.0.0.1:8000/predict', [
+                'age' => $request->input('age'),
+                'bmi' => $request->input('bmi'),
+                'HbA1c_level' => $request->input('HbA1c_level'),
+                'blood_glucose_level' => $request->input('blood_glucose_level'),
+                'hypertension' => $request->input('hypertension'),
+                'heart_disease' => $request->input('heart_disease'),
+                'gender' => $request->input('gender'),
+                'smoking_history' => $request->input('smoking_history')
+            ]);
+
+            // Check if API request was successful
+            if ($response->failed()) {
+                return $this->apiResponse(null, 'Failed to get prediction from API', 500);
+            }
+
+            // Decode response
+            $data = $response->json();
+
+            // Ensure required keys exist
+            if (!isset($data['prediction'])) {
+                return $this->apiResponse(null, 'Invalid API response format', 500);
+            }
+
+            // Return success response
+            return $this->apiResponse($data, 'Prediction retrieved successfully', 200);
+
+        } catch (\Exception $e) {
+            // Handle unexpected errors
+            return $this->apiResponse(null, 'An error occurred: ' . $e->getMessage(), 500);
+        }
+    }
 }

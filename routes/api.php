@@ -37,6 +37,7 @@ Route::get('/records/{id}', [DiabtesRecord::class, 'showhistory']);
 Route::post('/records', [DiabtesRecord::class,'store']);
 Route::post('/records/{id}', [DiabtesRecord::class, 'update']);
 Route::delete('/records/{id}',[DiabtesRecord::class,'destroy']);
+Route::post('/predictions', [DiabtesRecord::class,'getPrediction']);
 });
 
 
