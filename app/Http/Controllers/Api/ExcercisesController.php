@@ -26,10 +26,10 @@ class ExcercisesController extends Controller
     }
 
 
+    public function show( $id)
+    {
 
-public function show($id)
-{
-    $activite = diabtes_record::where('patient_id', $id)->value('activity_level');
+        $activite = diabtes_record::where('patient_id', $id)->value('activity_level');
 
     if (!$activite) {
         return $this->apiResponse(null, 'Activity level not found', 404);
