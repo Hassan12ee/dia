@@ -1,17 +1,17 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-use App\Http\Requests\Storediabtes_recordRequest;
+
 use App\Http\Resources\diabtesrecords;
 use App\Models\diabtes_record;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use app\http\Requests\Updatediabtes_recordRequest;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use Illuminate\Support\Facades\Log;
+
+use App\Models\User;
+
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class Diabtesrecord extends Controller
 {
@@ -28,14 +28,14 @@ class Diabtesrecord extends Controller
 
    if($post){
            return $this->apiResponse(new diabtesrecords($post),message:'ok',status:200);
-   }
-else{
+            }
+    else{
     return $this->apiResponse(null,message:'notfound',status:404);
-}
+        }
   }
 public function showhistory($id){
 
-    $post = diabtes_record::where('patient_id', $id)->get();
+    $post = diabtes_record::where('User_id', $id)->get();
 
    if($post->isNotEmpty()){
     return $this->apiResponse(diabtesrecords::collection($post), message: 'ok', status: 200);
@@ -45,19 +45,23 @@ else{
 }
 
 }
+//done
+public function store(Request $request ){
 
-public function store(Request $request){
     try {
+         $vr = User::findOrFail($request->User_id);
+         $age = Carbon::parse($vr->birthday)->age;
+
         // Send POST request to FastAPI server
         $response = Http::post('http://127.0.0.1:8000/predict', [
-            'age' => $request->input('age'),
+            'age' => $age,
             'bmi' => $request->input('bmi'),
             'HbA1c_level' => $request->input('HbA1c_level'),
             'blood_glucose_level' => $request->input('blood_glucose_level'),
             'hypertension' => $request->input('hypertension'),
             'heart_disease' => $request->input('heart_disease'),
-            'gender' => $request->input('gender'),
-            'smoking_history' => $request->input('smoking_history')
+            'gender' => $vr->gender,
+            'smoking_history' => $vr->smoking_history
         ]);
 
         // Check if API request was successful
@@ -74,38 +78,34 @@ public function store(Request $request){
         }
 
         // Return success response
-        // return $this->apiResponse($data, 'Prediction retrieved successfully', 200);
+       // return $this->apiResponse($data, 'Prediction retrieved successfully', 200);
         $validator=validator::make($request->all(),[
-            'patient_id' => 'required|max:100',
-            'gender' => 'required|in:Male,Female',
-            'age' => 'required|max:13',
+            'User_id' => 'required|max:100',
             'hypertension'=> 'required|in:0,1',
             'heart_disease'=> 'required|in:0,1',
-            'smoking_history'=> 'required|in:non-smoker,past_smoker,current',
             'bmi'=> 'required',
             'HbA1c_level'=> 'required',
             'blood_glucose_level'=> 'required|max:255',
-            'activity_level'=>'required|in:1,2,3,4',
            ]);
            if ($validator->fails()) {
             return $this->apiResponse(null,$validator->errors(),400);}
 
             $request['diabetes'] = $data['prediction'];
+                 $vm=       $vr->update([
+                'diabetes'=>$data['prediction'],
+            ]);
             $post = diabtes_record::create([
-            'patient_id'=> $request->patient_id,
-            'gender'=> $request->gender,
-            'age'=> $request->age,
+            'User_id'=> $request->User_id,
             'hypertension'=> $request->hypertension,
             'heart_disease'=> $request->heart_disease,
-            'smoking_history'=> $request->smoking_history,
             'bmi'=> $request->bmi,
             'HbA1c_level'=> $request->HbA1c_level,
-            'activity_level'=> $request->activity_level,
             'blood_glucose_level'=> $request->blood_glucose_level,
-            'diabetes'=>$data['prediction'],
+            // 'diabetes'=>$data['prediction'],
         ]);
 
-            if($post){
+
+            if($post && $vm){
                 return $this->apiResponse(new diabtesrecords($post),message:'saved succesully',status:201);
             }
             else{
@@ -118,7 +118,7 @@ public function store(Request $request){
         return $this->apiResponse(null, 'An error occurred: ' . $e->getMessage(), 500);
     }
 
-  }
+   }
 
 public function destroy($id){
 
@@ -138,6 +138,7 @@ public function destroy($id){
 
     public function getPrediction(Request $request)
     {
+
         try {
             // Send POST request to FastAPI server
             $response = Http::post('http://127.0.0.1:8000/predict', [

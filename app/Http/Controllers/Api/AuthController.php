@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use App\Http\Resources\Users;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -63,7 +63,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'User successfully registered',
-            'user' => $user
+            'user' =>new Users($user)
         ], 201);
     }
 
@@ -105,11 +105,10 @@ class AuthController extends Controller
      */
     protected function createNewToken($token){
         return response()->json([
-            'user' => auth()->user(),
+            'user' =>new Users(auth()->user()) ,
             'token' => $token,
             'expires_in' => auth()->factory()->getTTL() * 6000,
 
         ]);
     }
-
 }

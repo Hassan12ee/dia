@@ -16,17 +16,12 @@ class diabtesrecords extends JsonResource
     {
         return[
      'id'=>$this-> id,
-     'patient_id'=>$this-> patient_id,
-     'gender' =>$this ->gender,
-     'age' => $this-> age,
+     'User_id'=>$this-> User_id,
      'hypertension'=>$this-> hypertension,
      'heart_disease'=>$this-> heart_disease,
-     'smoking_history'=>$this-> smoking_history,
      'bmi'=>$this-> bmi,
      'HbA1c_level'=>$this-> HbA1c_level,
      'blood_glucose_level'=>$this-> blood_glucose_level,
-     'diabetes'=>$this-> diabetes,
-     'activity_level'=>$this->activity_level,
         ];
     }
 }

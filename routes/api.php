@@ -30,7 +30,6 @@ use App\Http\Controllers\Api\UserController;
 Route::middleware(['jwt.verify'])->group(function () {
 Route::get('/Excercises/{id}', [ExcercisesController::class, 'show']);
 Route::post('/predict_diabetes_type', [DiabetesTypeController::class,'getPrediction']);
-
 Route::controller(DiabtesRecord::class)->group(function ()   {
 Route::get('/records/{id}','showhistory');
 Route::get('/records','index');
@@ -42,7 +41,7 @@ Route::post('/predictions', 'getPrediction');
 });
 Route::controller(UserController::class)->group(function ()   {
 Route::get('/User/{id}','show');
-Route::put('/User/{id}','update');
+Route::put('/User','update');
 });
 });
 
@@ -50,7 +49,6 @@ Route::put('/User/{id}','update');
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
-
 ], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);

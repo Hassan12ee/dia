@@ -23,7 +23,7 @@ class UserController extends Controller
     //     // Validate incoming request
     //     $validated = $request->validate([
     //         'age' => 'required|integer|min:0|max:150',
-    //         'activity_level'=>'required|in:0,1,2,3',
+    //         'activity_level'=>'required|in:1,2,3,4',
     //         'gender' => 'required|in:Male,Female',
     //         'diabetes' => 'required|in:0,1',
     //         'smoking_history' => 'required|in:non-smoker,past_smoker,current'
@@ -68,15 +68,16 @@ class UserController extends Controller
     }
 
     // 📌 Update a user
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
 
             // Find the user
-            $user = User::findOrFail($id);
+            $user = User::findOrFail($request->id);
+
 
             // Validate the incoming request
             $validated = $request->validate([
-                'activity_level'=>'required|in:0,1,2,3',
+                'activity_level'=>'required|in:1,2,3,4',
                 'diabetes' => 'required|in:0,1',
                 'smoking_history' => 'required|in:non-smoker,past_smoker,current'
             ]);
