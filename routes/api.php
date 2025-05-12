@@ -31,9 +31,18 @@ Route::middleware(['jwt.verify'])->group(function () {
 Route::get('/Excercises/{id}', [ExcercisesController::class, 'show']);
 Route::post('/predict_diabetes_type', [DiabetesTypeController::class,'getPrediction']);
 
-Route::post('/records', [DiabtesRecord::class,'store']);
-Route::post('/records/{id}', [DiabtesRecord::class, 'update']);
-Route::delete('/records/{id}',[DiabtesRecord::class,'destroy']);
+Route::controller(DiabtesRecord::class)->group(function ()   {
+Route::get('/records/{id}','showhistory');
+Route::get('/records','index');
+Route::get('/record/{id}','show');
+Route::post('/records','store');
+Route::post('/records/{id}','update');
+Route::delete('/records/{id}','destroy');
+Route::post('/predictions', 'getPrediction');
+});
+Route::controller(UserController::class)->group(function ()   {
+Route::get('/User/{id}','show');
+Route::put('/User/{id}','update');
 });
 });
 
