@@ -44,10 +44,12 @@ class AuthController extends Controller
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|between:2,100',
+            'lastname' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:6',
             'birthday'=>'required|date',
             'phone'=>'required|numeric|digits_between:7,15',
+            'gender' => 'required|in:Male,Female',
         ]);
 
         if($validator->fails()){
@@ -103,10 +105,11 @@ class AuthController extends Controller
      */
     protected function createNewToken($token){
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => auth()->user()
+            'user' => auth()->user(),
+            'token' => $token,
+            'expires_in' => auth()->factory()->getTTL() * 6000,
+
         ]);
     }
+
 }

@@ -10,17 +10,16 @@ class diabtes_record extends Model
     use HasFactory;
     protected $fillable = [
         'id',
-        'patient_id',
-        'gender',
-        'age',
+        'User_id',
         'hypertension',
         'heart_disease',
-        'smoking_history',
         'bmi',
         'HbA1c_level',
         'blood_glucose_level',
-        'diabetes',
-        'activity_level',
         ];
 
+        public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

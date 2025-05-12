@@ -21,12 +21,18 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
             'id',
-            'user',
             'name',
+            'lastname',
             'email',
             'password',
             'birthday',
             'phone',
+            'activity_level',
+            'gender',
+            'diabetes',
+            'smoking_history',
+            'first_time_Record',
+            'admin',
 
     ];
 
@@ -66,5 +72,9 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims() {
         return [];
+    }
+    public function diabetes_record()
+    {
+        return $this->hasMany(diabtes_record::class);
     }
 }
